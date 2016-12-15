@@ -137,34 +137,34 @@ function test_input($data) {
   <br><br>
   <input type="submit" name="submit" value="Submit">  
 </form>
-
+<br>
 <h2>Copy and paste the following into your file:</h2>
-<?php
+<?php 
 if ($format == "xml") {
-echo "<build>"; 
+echo "&lt;build&gt;"; 
 }
 else {  
 echo "";
 } 
-echo "<br>";
+echo "&lt;br&gt;";
 echo "name=$name";
-echo "<br>";
+echo "&lt;br&gt;";
 echo "url=$zip";
-echo "<br>";
+echo "&lt;br&gt;";
 echo "img=$img";
-echo "<br>";
+echo "&lt;br&gt;";
 echo "fanart=$fanart";
-echo "<br>";
+echo "&lt;br&gt;";
 echo "description=$description";
-echo "<br>";
+echo "&lt;br&gt;";
 echo "version=$version";
-echo "<br>";
+echo "&lt;br&gt;";
 echo "code=$code";
-echo "<br>";
+echo "&lt;br&gt;";
 echo "kodiver=$kodiver";
-echo "<br>"; 
+echo "&lt;br&gt;"; 
 if ($format == "xml") { 
-echo "</build>";
+echo "&lt;/build&gt;";
 }
 else {
 echo "";

@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>  
+<html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
+<body>  
+
+<?php
+// define variables and set to empty values
+$nameErr = $zipErr = $imgErr = $fanartErr = $versionErr = $codeErr = $kodiverErr = $formatErr = "";
+$name = $zip = $img = $fanart = $version = $code = $kodiver = $formatErr = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["name"])) {
+    $nameErr = "Name is required";
+  } else {
+    $name = test_input($_POST["name"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/",$name)) {
+      $nameErr = "Only letters, numbers and white space allowed";
+    }
+  }
+  
+  if (empty($_POST["zip"])) {
+    $zipErr = "zip url is required";
+  } else {
+    $zip = test_input($_POST["zip"]);
+    // check if URL address syntax is valid
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+      $zipErr = "Invalid URL";
+    }
+  }
+    
+  if (empty($_POST["img"])) {
+    $imgErr = "An icon url is required";
+  } else {
+    $img = test_input($_POST["img"]);
+    // check if URL address syntax is valid
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+      $imgErr = "Invalid URL";
+    }    
+  }
+  
+    if (empty($_POST["fanart"])) {
+    $fanartErr = "An fanart url is required";
+  } else {
+    $fanart = test_input($_POST["fanart"]);
+    // check if URL address syntax is valid
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+      $fanartErr = "Invalid URL";
+    }    
+  }
+
+  if (empty($_POST["description"])) {
+    $descriptionErr = "A description is required";
+  } else {
+    $description = test_input($_POST["description"]);
+    }
+  }
+  
+    if (empty($_POST["version"])) {
+    $version = "";
+  } else {
+    $version = test_input($_POST["version"]);
+    // check if URL address syntax is valid
+    if (!preg_match("[-a-z0-9.]*[-a-z0-9]/i",$version)) {
+      $versionErr = "Version format is *.*.*";
+    }    
+  }
+  
+      if (empty($_POST["code"])) {
+    $code = "";
+  } else {
+    $code = test_input($_POST["code"]);
+    // check if URL address syntax is valid
+    if (!preg_match("[-a-z0-9.]*[-a-z0-9]/i",$code)) {
+      $codeErr = "Code format is ****";
+    }    
+  }
+
+      if (empty($_POST["kodiver"])) {
+    $kodiver = "";
+  } else {
+    $kodiver = test_input($_POST["kodiver"]);
+    // check if URL address syntax is valid
+    if (!preg_match("[-a-z0-9.]*[-a-z0-9]/i",$kodiver)) {
+      $kodiverErr = "Kodi version format is **.*";
+    }    
+  }
+  if (empty($_POST["format"])) {
+    $formatErr = "Please choose an output format";
+  } else {
+    $format = test_input($_POST["format"]);
+  }
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+
+<h2>Create a Pointer File</h2>
+<p><span class="error">* required field.</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  Build Name: <input type="text" name="name">
+  <span class="error">* <?php echo $nameErr;?></span>
+  <br><br>
+  Builds Zip URL: <input type="text" name="zip">
+  <span class="error">* <?php echo $zipErr;?></span>
+  <br><br>
+  Builds Icon Image: <input type="text" name="img">
+  <span class="error">*<?php echo $imgErr;?></span>
+  <br><br>
+  Builds Fanart Image: <input type="text" name="fanart">
+  <span class="error">*<?php echo $fanartErr;?></span>
+  <br><br>
+  Description of Build: <input name="description"</input>
+  <span class="error">*<?php echo $fanartErr;?></span>
+  <br><br>
+  Builds Version #: <input type="text" name="version">
+  <span class="error"><?php echo $versionErr;?></span>
+  <br><br>
+  Lock code: <input type="text" name="code">
+  <span class="error"><?php echo $codeErr;?></span>
+  <br><br>
+  Kodi Version #: <input type="text" name="kodiver">
+  <span class="error"><?php echo $kodiverErr;?></span>
+  <br><br>
+  Output format:
+  <input type="radio" name="format" value="txt">.txt
+  <input type="radio" name="format" value="xml">.xml
+  <input type="radio" name="format" value="html">.html
+  <span class="error">* <?php echo $formatErr;?></span>
+  <br><br>
+  <input type="submit" name="submit" value="Submit">  
+</form>
+
+<?php
+echo "<h2>Copy and paste the following into your file:</h2>";
+echo name="$name";
+echo "<br>";
+echo url="$zip";
+echo "<br>";
+echo img="$img";
+echo "<br>";
+echo fanart="$fanart";
+echo "<br>";
+echo description="$description";
+echo "<br>";
+echo version="$version";
+echo "<br>";
+echo code="$code";
+echo "<br>";
+echo kodiver="$kodiver";
+?>
+
+</body>
+</html>

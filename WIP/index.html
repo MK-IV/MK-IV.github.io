@@ -9,81 +9,81 @@
 
 <?php
 // define variables and set to empty values
-$nameErr = $zipErr = $imgErr = $fanartErr = $versionErr = $codeErr = $kodiverErr = $formatErr = "";
-$name = $zip = $img = $fanart = $version = $code = $kodiver = $formatErr = "";
+$nameErr = $zipErr = $imgErr = $fanartErr = $descriptionErr = $versionErr = $codeErr = $kodiverErr = $formatErr = "";
+$name = $zip = $img = $fanart = $description = $version = $code = $kodiver = $format = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["name"])) {
+  if (empty($_POST['"name"'])) {
     $nameErr = "Name is required";
   } else {
-    $name = test_input($_POST["name"]);
+    $name = test_input($_POST['"name"']);
     // check if name only contains letters and whitespace
     if (!preg_match("/^[a-zA-Z0-9 ]*$/",$name)) {
       $nameErr = "Only letters, numbers and white space allowed";
     }
   }
   
-  if (empty($_POST["zip"])) {
+  if (empty($_POST['"zip"'])) {
     $zipErr = "zip url is required";
   } else {
-    $zip = test_input($_POST["zip"]);
+    $zip = test_input($_POST['"zip"']);
     // check if URL address syntax is valid
-    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$zip)) {
       $zipErr = "Invalid URL";
     }
   }
     
-  if (empty($_POST["img"])) {
+  if (empty($_POST['"img"'])) {
     $imgErr = "An icon url is required";
   } else {
-    $img = test_input($_POST["img"]);
+    $img = test_input($_POST['"img"']);
     // check if URL address syntax is valid
-    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$img)) {
       $imgErr = "Invalid URL";
     }    
   }
   
-    if (empty($_POST["fanart"])) {
+  if (empty($_POST['"fanart"'])) {
     $fanartErr = "An fanart url is required";
   } else {
-    $fanart = test_input($_POST["fanart"]);
+    $fanart = test_input($_POST['"fanart"']);
     // check if URL address syntax is valid
-    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$fanart)) {
       $fanartErr = "Invalid URL";
     }    
   }
 
-  if (empty($_POST["description"])) {
+  if (empty($_POST['"description"'])) {
     $descriptionErr = "A description is required";
   } else {
     $description = test_input($_POST["description"]);
     }
   }
   
-    if (empty($_POST["version"])) {
+  if (empty($_POST['"version"'])) {
     $version = "";
   } else {
-    $version = test_input($_POST["version"]);
+    $version = test_input($_POST['"version"']);
     // check if URL address syntax is valid
-    if (!preg_match("[-a-z0-9.]*[-a-z0-9]/i",$version)) {
+    if (!preg_match("/^[0-9]*$/",$version)) {
       $versionErr = "Version format is *.*.*";
     }    
   }
   
-      if (empty($_POST["code"])) {
+  if (empty($_POST['"code"'])) {
     $code = "";
   } else {
-    $code = test_input($_POST["code"]);
+    $code = test_input($_POST['"code"']);
     // check if URL address syntax is valid
-    if (!preg_match("[-a-z0-9.]*[-a-z0-9]/i",$code)) {
+    if (!preg_match("/^[0-9]*$/",$code)) {
       $codeErr = "Code format is ****";
     }    
   }
 
-      if (empty($_POST["kodiver"])) {
+  if (empty($_POST['"kodiver"'])) {
     $kodiver = "";
   } else {
-    $kodiver = test_input($_POST["kodiver"]);
+    $kodiver = test_input($_POST['"kodiver"']);
     // check if URL address syntax is valid
     if (!preg_match("[-a-z0-9.]*[-a-z0-9]/i",$kodiver)) {
       $kodiverErr = "Kodi version format is **.*";
@@ -94,7 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $format = test_input($_POST["format"]);
   }
-}
 
 function test_input($data) {
   $data = trim($data);
@@ -106,7 +105,7 @@ function test_input($data) {
 
 <h2>Create a Pointer File</h2>
 <p><span class="error">* required field.</span></p>
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+<form method="post" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>'>  
   Build Name: <input type="text" name="name">
   <span class="error">* <?php echo $nameErr;?></span>
   <br><br>
@@ -134,29 +133,42 @@ function test_input($data) {
   Output format:
   <input type="radio" name="format" value="txt">.txt
   <input type="radio" name="format" value="xml">.xml
-  <input type="radio" name="format" value="html">.html
   <span class="error">* <?php echo $formatErr;?></span>
   <br><br>
   <input type="submit" name="submit" value="Submit">  
 </form>
 
+<h2>Copy and paste the following into your file:</h2>
 <?php
-echo "<h2>Copy and paste the following into your file:</h2>";
-echo name="$name";
+if ($format == "xml") {
+echo "<build>"; 
+}
+else {  
+echo "";
+} 
 echo "<br>";
-echo url="$zip";
+echo "name=$name";
 echo "<br>";
-echo img="$img";
+echo "url=$zip";
 echo "<br>";
-echo fanart="$fanart";
+echo "img=$img";
 echo "<br>";
-echo description="$description";
+echo "fanart=$fanart";
 echo "<br>";
-echo version="$version";
+echo "description=$description";
 echo "<br>";
-echo code="$code";
+echo "version=$version";
 echo "<br>";
-echo kodiver="$kodiver";
+echo "code=$code";
+echo "<br>";
+echo "kodiver=$kodiver";
+echo "<br>"; 
+if ($format == "xml") { 
+echo "</build>";
+}
+else {
+echo "";
+} 
 ?>
 
 </body>
